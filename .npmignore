@@ -1,0 +1,11 @@
+.idea/
+.eslintignore
+.eslintrc
+.gitignore
+.prettierrc
+jest.config.js
+tsconfig.json
+webpack.config.ts
+src/
+__tests__
+build.sh

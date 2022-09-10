@@ -1,0 +1,35 @@
+{
+  "name": "react-routing-tools",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "scripts": {
+    "lint": "eslint --fix --ext .tsx,.ts ./src",
+    "build": "./build.sh",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@statoscope/webpack-plugin": "^5.24.0",
+    "@types/jest": "^29.0.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/url-parse": "^1.4.8",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "eslint": "^8.23.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.0.3",
+    "jest-environment-jsdom": "^29.0.2",
+    "ts-jest": "^29.0.0",
+    "ts-loader": "^9.3.1",
+    "ts-node": "^10.9.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "react": ">=16.0.0",
+    "react-router-dom": ">=5.2.0",
+    "url-parse": "^1.5.10"
+  },
+  "peerDependencies": {
+    "react": ">=16.0.0",
+    "react-router-dom": ">=5.2.0"
+  }
+}
