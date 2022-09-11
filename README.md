@@ -6,7 +6,7 @@ Currently it contains some basic API:
 
 ## serializeObject
 
-Accepts any serializable JS object as an argument and serializes it as string. Serialized string contains type signatures for each source object field, so it can be easily converted back to object without losing types. Some examples are placed below:
+Accepts any serializable JS object as an argument and serializes it to string. Serialized string contains type signatures for each source object field, so it can be easily converted back to the object without losing types. Some examples are placed below:
 
     serializeObject({ age: 37 })
     -> 'age=n-37'
@@ -30,7 +30,7 @@ Arrays of objects are supported, objects nesting is supported.
 ## buildFromString
 
 Accept string which should contain serialized data and contructs a JS object from it.
-If given string is built by **serializeObject** function it will contain types data and output object will contain fields of corresponding types, e.g:
+If given string is built by **serializeObject** function it will contain type signatures and output object will contain fields of corresponding types, e.g:
 
     const s = 'acceptedTerms=s-both&deleted=s-both&emptyProfile=s-both&limit=n-10&offset=n-0&region=o-id%3Ds-%26name%3Ds-&role=s-any&term=s-'
     buildFromString(s)
@@ -45,7 +45,7 @@ If given string is built by **serializeObject** function it will contain types d
          deleted: 'both'
       }
 
-Also standart query string can be parsed, but without types data all fields will be parsed as string:
+Also standart query string can be parsed, but without type signatures all fields will be parsed as strings:
 
     buildFromString('name=Andrey&age=37&smart=true')
     -> { name: 'Andrey', age: '37', smart: 'true' }
@@ -98,7 +98,7 @@ This hook returns data related to current query string:
       const { object } = useEnhancedQuery()
 
       // Call some fictious hook to obtain filter form data, initialize it with
-      // **InitialFilter** data merged with data read from query string
+      // InitialFilter data merged with data read from query string
       const form = useFormData<GetAccountsRequest>({ ...InitialFilter, ...object })
 
       // Start listening for filter updates, page query string will be updated correspondingly.
