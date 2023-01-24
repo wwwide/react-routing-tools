@@ -5,27 +5,29 @@ import { AnyObject, AnyValue } from './types'
  * @param {AnyValue} value - value of any supported type.
  * @returns {string} - serialized value.
  */
-const processValue = (value: AnyValue): string => {
+const processValue = (value: AnyValue, addTypes: boolean): string => {
   let formattedValue = ''
 
   if (typeof value === 'number') {
-    formattedValue = encodeURIComponent(`n-${value}`)
+    formattedValue = encodeURIComponent(`${addTypes ? 'n-' : ''}${value}`)
   }
 
   if (typeof value === 'string') {
-    formattedValue = encodeURIComponent(`s-${value}`)
+    formattedValue = encodeURIComponent(`${addTypes ? 's-' : ''}${value}`)
   }
 
   if (typeof value === 'boolean') {
-    formattedValue = encodeURIComponent(`b-${value}`)
+    formattedValue = encodeURIComponent(`${addTypes ? 'b-' : ''}${value}`)
   }
 
   if (!Array.isArray(value) && typeof value === 'object') {
-    formattedValue = encodeURIComponent(`o-${serializeObject(value)}`)
+    formattedValue = encodeURIComponent(`${addTypes ? 'o-' : ''}${serializeObject(value)}`)
   }
 
   if (Array.isArray(value)) {
-    formattedValue = encodeURIComponent(`a-${value.map((i) => processValue(i)).join(',')}`)
+    formattedValue = encodeURIComponent(
+      `${addTypes ? 'a-' : ''}${value.map((i) => processValue(i, addTypes)).join(',')}`
+    )
   }
 
   return formattedValue
@@ -37,14 +39,15 @@ const processValue = (value: AnyValue): string => {
  * @param {AnyValue} - value of any supported type.
  * @returns serialized key/value pair
  */
-const processPair = (key: string, value: AnyValue): string => `${encodeURIComponent(key)}=${processValue(value)}`
+const processPair = (key: string, value: AnyValue, addTypes: boolean): string =>
+  `${encodeURIComponent(key)}=${processValue(value, addTypes)}`
 
 /**
  * Serialize object to string.
  * @param {AnyObject} object - value to serialize.
  * @returns {string} - serialized value.
  */
-export function serializeObject(object: AnyObject): string {
+export function serializeObject(object: AnyObject, addTypes = true): string {
   const keys = Object.keys(object)
 
   if (!keys.length) {
@@ -53,6 +56,6 @@ export function serializeObject(object: AnyObject): string {
 
   return Object.keys(object)
     .sort()
-    .map((key) => processPair(key, object[key]))
+    .map((key) => processPair(key, object[key], addTypes))
     .join('&')
 }
