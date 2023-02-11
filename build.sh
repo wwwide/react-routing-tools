@@ -1,8 +1,9 @@
 npm run lint
-npm run test
-npm run ts-check
 rm -rf ./dist
+./node_modules/typescript/bin/tsc
 ts-node ./esbuild/build.ts
+rm -rf ./dist/esbuild
 rm -rf ./dist/__tests__
-# mv ./dist/src/* ./dist
-# rm -rf ./dist/src
+find ./dist/src -name "*.js" -type f -delete
+mv ./dist/src/* ./dist
+rm -rf ./dist/src

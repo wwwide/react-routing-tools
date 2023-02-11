@@ -1,6 +1,6 @@
 {
   "name": "react-routing-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/index.js",
   "scripts": {
     "lint": "TIMING=1 ./node_modules/eslint/bin/eslint.js --max-warnings=0 ./src",
