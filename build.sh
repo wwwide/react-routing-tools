@@ -1,10 +1,8 @@
 npm run lint
 npm run test
+npm run ts-check
 rm -rf ./dist
-webpack --config ./webpack.config.ts --mode=production
+ts-node ./esbuild/build.ts
 rm -rf ./dist/__tests__
-rm -rf ./dist/report-*
-rm -rf ./dist/stats-*
-rm -rf ./dist/webpack.config.d.ts
-mv ./dist/src/* ./dist
-rm -rf ./dist/src
+# mv ./dist/src/* ./dist
+# rm -rf ./dist/src

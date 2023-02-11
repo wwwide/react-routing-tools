@@ -9,3 +9,4 @@ webpack.config.ts
 src/
 __tests__
 build.sh
+esbuild

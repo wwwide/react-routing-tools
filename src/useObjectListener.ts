@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { AnyObject } from './types'
 import { serializeObject } from './serializeObject'
 
@@ -18,25 +18,18 @@ export type UseObjectListenerOpts = {
  * @param {UseObjectListenerOpts} opts - options.
  * @returns {UseObjectListenerValue} - processed data.
  */
-export const useObjectListener = (
-  object: AnyObject,
-  opts?: UseObjectListenerOpts
-): UseObjectListenerValue => {
-  const {
-    location: { search, pathname, hash },
-    push,
-    replace
-  } = useHistory()
-
+export const useObjectListener = (object: AnyObject, opts?: UseObjectListenerOpts): UseObjectListenerValue => {
+  const { search, pathname, hash } = useLocation()
+  const navigate = useNavigate()
   const query = serializeObject(object)
 
   useEffect(() => {
     if (search !== `?${query}`) {
       const newUrl = `${pathname}?${query}${hash}`
       if ((opts?.syncBehavior || 'replace') === 'replace') {
-        replace(newUrl)
+        navigate(newUrl, { replace: true })
       } else {
-        push(newUrl)
+        navigate(newUrl)
       }
     }
   }, [object, search, query])

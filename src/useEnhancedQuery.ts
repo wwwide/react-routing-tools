@@ -1,5 +1,5 @@
 import UrlParse from 'url-parse'
-import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { AnyObject } from './types'
 import { buildFromString } from './buildFromString'
 
@@ -14,10 +14,7 @@ export type UseEnhancedQueryValue<T = { [key: string]: any }> = {
  * @returns {UseEnhancedQueryValue} - parsed query, source query, object from query.
  */
 export const useEnhancedQuery = <T>(): UseEnhancedQueryValue<T> => {
-  const {
-    location: { search, pathname, hash }
-  } = useHistory()
-
+  const { search, pathname, hash } = useLocation()
   const full = `${pathname}${search}${hash}`
   const parsed = UrlParse(full, true)
   const query = search.substring(1)
