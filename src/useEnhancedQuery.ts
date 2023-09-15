@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { AnyObject } from './types'
 import { buildFromString } from './buildFromString'
 
+// eslint-disable-next-line
 export type UseEnhancedQueryValue<T = { [key: string]: any }> = {
   query: string
   object: AnyObject

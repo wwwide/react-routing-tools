@@ -54,6 +54,7 @@ describe('object2query / query2object test cases', () => {
     const profile1 = { name: 'Andrey', age: 37 }
     const data1 = { profile: profile1 }
     const serialized1 = serializeObject(data1)
+
     expect(serialized1).toEqual(`profile=o-${encodeURIComponent(serializeObject(profile1))}`)
     const object1 = buildFromString(serialized1)
     expect(object1).toEqual(data1)
@@ -64,6 +65,30 @@ describe('object2query / query2object test cases', () => {
     expect(serialized2).toEqual(`profile=o-${encodeURIComponent(serializeObject(profile2))}`)
     const object2 = buildFromString(serialized2)
     expect(object2).toEqual(data2)
+
+    const profile3 = null
+    const serialized3 = serializeObject(profile3)
+    expect(serialized3).toEqual('o-null')
+    const object3 = buildFromString(serialized3)
+    expect(object3).toEqual(profile3)
+
+    const profile4 = undefined
+    const serialized4 = serializeObject(profile4)
+    expect(serialized4).toEqual('o-undefined')
+    const object4 = buildFromString(serialized4)
+    expect(object4).toEqual(profile4)
+
+    const profile5 = { name: null }
+    const serialized5 = serializeObject(profile5)
+    expect(serialized5).toEqual('name=o-null')
+    const object5 = buildFromString(serialized5)
+    expect(object5).toEqual(profile5)
+
+    const profile6 = { name: undefined }
+    const serialized6 = serializeObject(profile6)
+    expect(serialized6).toEqual('name=o-undefined')
+    const object6 = buildFromString(serialized6)
+    expect(object6).toEqual(profile6)
   })
 
   test('array serialization', () => {

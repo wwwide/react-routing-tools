@@ -8,19 +8,20 @@ import { AnyObject, AnyValue } from './types'
 const processValue = (value: string): AnyValue => {
   let parsedValue: AnyValue = ''
 
-  if (value.startsWith('n-')) {
+  if (value?.startsWith('n-')) {
     parsedValue = +value.substring(2)
-  } else if (value.startsWith('b-')) {
+  } else if (value?.startsWith('b-')) {
     parsedValue = value.substring(2) === 'true'
-  } else if (value.startsWith('o-')) {
+  } else if (value?.startsWith('o-')) {
     parsedValue = buildFromString(decodeURIComponent(value.substring(2)))
-  } else if (value.startsWith('a-')) {
+  } else if (value?.startsWith('a-')) {
     parsedValue = decodeURIComponent(value.substring(2))
       .split(',')
       .map((i) => {
+        // eslint-disable-next-line
         return processValue(i) as any
       })
-  } else if (value.startsWith('s-')) {
+  } else if (value?.startsWith('s-')) {
     parsedValue = decodeURIComponent(value.substring(2))
   } else {
     parsedValue = decodeURIComponent(value)
@@ -45,6 +46,21 @@ const processPair = (key: string, value: string) => ({
  * @returns {AnyObject} - complied object.
  */
 export function buildFromString(query: string): AnyObject {
+  /**
+   * "o-null" when root object is null,
+   * "null" when one of the object's fields is null
+   */
+  if (query === 'o-null' || query === 'null') {
+    return null
+  }
+
+  /**
+   * Same as for nulls above.
+   */
+  if (query === 'o-undefined' || query === 'undefined') {
+    return undefined
+  }
+
   if (!query) {
     return {}
   }

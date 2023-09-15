@@ -8,6 +8,10 @@ import { AnyObject, AnyValue } from './types'
 const processValue = (value: AnyValue, addTypes: boolean): string => {
   let formattedValue = ''
 
+  if (typeof value === 'undefined') {
+    formattedValue = encodeURIComponent(`${addTypes ? 'o-' : ''}undefined`)
+  }
+
   if (typeof value === 'number') {
     formattedValue = encodeURIComponent(`${addTypes ? 'n-' : ''}${value}`)
   }
@@ -21,7 +25,11 @@ const processValue = (value: AnyValue, addTypes: boolean): string => {
   }
 
   if (!Array.isArray(value) && typeof value === 'object') {
-    formattedValue = encodeURIComponent(`${addTypes ? 'o-' : ''}${serializeObject(value)}`)
+    if (value === null) {
+      formattedValue = encodeURIComponent(`${addTypes ? 'o-' : ''}null`)
+    } else {
+      formattedValue = encodeURIComponent(`${addTypes ? 'o-' : ''}${serializeObject(value)}`)
+    }
   }
 
   if (Array.isArray(value)) {
@@ -48,6 +56,14 @@ const processPair = (key: string, value: AnyValue, addTypes: boolean): string =>
  * @returns {string} - serialized value.
  */
 export function serializeObject(object: AnyObject, addTypes = true): string {
+  if (object === null) {
+    return 'o-null'
+  }
+
+  if (typeof object === 'undefined') {
+    return 'o-undefined'
+  }
+
   const keys = Object.keys(object)
 
   if (!keys.length) {
